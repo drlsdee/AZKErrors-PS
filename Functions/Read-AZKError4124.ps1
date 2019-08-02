@@ -12,7 +12,7 @@ function Read-AZKError4124 {
         Write-Verbose -Message "$(New-TimeStamp) Starting function `"$($MyInvocation.MyCommand)`""
         [string]$Year = $ErrorMessage.Split('[]')[0].Split(' ') -match '^\d{4}$'
         #$Year
-        [System.Collections.Generic.List[decimal]]$Money = $ErrorMessage.Split('[]')[0].Split(' ') -match '^\d+\.\d{2}$'
+        [array]$Money = $ErrorMessage.Split('[]')[0].Split(' ') -match '^\d+\.\d{2}$'
         # Don't worry. Here we are splitting the string with method for any '[]' character and then splitting the result with operator for exact ', ' substring.
         $Codes = $ErrorMessage.Split('[]')[1] -split ', '
     }
@@ -29,9 +29,9 @@ function Read-AZKError4124 {
             $OutObject | Add-Member -MemberType NoteProperty -Name $KV[0] -Value $KV[1]
         }
         Write-Verbose -Message "$(New-TimeStamp) [$($MyInvocation.MyCommand)]: Processing the difference between existing obligations and planned payments:"
-        $Obligation = $Money[0]
+        [decimal]$Obligation = $Money[0]
         $OutObject | Add-Member -MemberType NoteProperty -Name 'Обязательства' -Value $Obligation
-        $PaymentPlanned = $Money[1]
+        [decimal]$PaymentPlanned = $Money[1]
         $OutObject | Add-Member -MemberType NoteProperty -Name 'ПлатежПлан' -Value $PaymentPlanned
         $Difference = $Obligation - $PaymentPlanned
         $OutObject | Add-Member -MemberType NoteProperty -Name 'Превышение' -Value $Difference
