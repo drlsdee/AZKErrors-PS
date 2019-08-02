@@ -2,7 +2,7 @@
 
 $splitByDot = $AZKreply -split "\.\s"
 
-function Split-AZKReply {
+function Split-AZKReplyText {
     param (
         [Parameter()]
         [array]
@@ -13,11 +13,9 @@ function Split-AZKReply {
     [array]$Out = @()
     if ($ErrorCodes.Count -ne $ErrorContent.Count) {
         Write-Error -Message "Counts of error codes and error messages are not equal!"
-        Write-Error -Message "Error codes count:"
-        Write-Error -Message $ErrorCodes.Count
-        Write-Error -Message "Error messages count:"
-        Write-Error -Message $ErrorContent.Count
-        stop
+        Write-Error -Message "Error codes count: $($ErrorCodes.Count)"
+        Write-Error -Message "Error messages count: $($ErrorContent.Count)"
+        exit
     } else {
         $Cnt = $ErrorCodes.Count
         $Ind = 0
@@ -34,7 +32,7 @@ function Split-AZKReply {
     return $Out
 }
 
-$ArrTmp = Split-AZKReply -replyArr $splitByDot -Verbose
+$ArrTmp = Split-AZKReplyText -replyArr $splitByDot -Verbose
 
 function Parse-ErrorContent {
     param (
