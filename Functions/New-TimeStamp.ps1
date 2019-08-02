@@ -21,4 +21,3 @@ function New-TimeStamp {
     $TimeStamp = "[$dateToString]:"
     return $TimeStamp
 }
-Export-ModuleMember -Function 'New-TimeStamp'
